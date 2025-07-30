@@ -3,9 +3,8 @@ function getComputerChoice() {
     return number
 }
 
-function getHumanChoice() {
-    let choice = prompt("rock, paper, scissors") 
-    switch(choice.toLowerCase()) {
+function getHumanChoice(choice) {
+    switch(choice) {
         case "rock":
             return 0
         case "paper":
@@ -21,46 +20,64 @@ function playRound(humanChoice, computerChoice) {
     result = humanChoice - computerChoice
     switch(computerChoice) {
         case 0:
-            console.log("Computer choice: Rock")
+            document.getElementById("computer").textContent = "Computer choice: Rock"
             break
         case 1:
-            console.log("Computer choice: Paper")
+            document.getElementById("computer").textContent = "Computer choice: Paper"
             break
         case 2:
-            console.log("Computer choice: Scissors")
+            document.getElementById("computer").textContent = "Computer choice: Scissors"
             break
     }
 
     switch(result) {
         case 0:
-            console.log("Draw!")
+            document.getElementById("results").textContent = "Draw!"
             break
         case 1:
-            console.log("You win!")
+            document.getElementById("results").textContent = "You win this round!"
             humanScore += 1
+            break        
+        case 2:
+            document.getElementById("results").textContent = "You lose this round!"
+            computerScore += 1
             break
         case -2:
-            console.log("You win!")
+            document.getElementById("results").textContent = "You win this round!"
             humanScore += 1
             break
         case -1:
-            console.log("You lose!")
+            document.getElementById("results").textContent = "You lose this round!"
             computerScore += 1
             break
     }
-}
+    let scoreDiv = document.getElementById("score")
+    scoreDiv.textContent = `human score: ${humanScore}, computer score: ${computerScore}`
 
-function playGame() {
-    for (let i = 0; i < 5; i++){
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection)
-        console.log("Computer score: " + computerScore)
-        console.log("Human score: " + humanScore)
+    if (humanScore == 5) {
+        document.getElementById("winner").textContent = "You are the winner!"
+    } 
+    else if (computerScore == 5) {
+        document.getElementById("winner").textContent = "The computer is the winner!"
     }
 }
 
 let humanScore = 0
 let computerScore = 0
 
-playGame()
+const rock = document.querySelector("#rock")
+const paper = document.querySelector("#paper")
+const scissors = document.querySelector("#scissors")
+
+rock.addEventListener("click", () => {
+    playRound(0, getComputerChoice())
+})
+paper.addEventListener("click", () => {
+    playRound(1, getComputerChoice())
+})
+scissors.addEventListener("click", () => {
+    playRound(2, getComputerChoice())
+})
+
+
+
